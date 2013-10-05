@@ -361,9 +361,13 @@ var XBBCODE = (function() {
 					var re = RegExp(re_str)
 					for(var v in tokens) {
 						var token = tokens[v];
-						var res = re.exec(token);	
-						if(res.length > 2 && res[1] != 'url')
-							options[res[1]] = res[2];
+						try {
+							var res = re.exec(token);	
+							if(res.length > 2 && res[1] != 'url')
+								options[res[1]] = res[2];
+						} catch(err) {
+							continue;
+						}
 					}
 				}
 
