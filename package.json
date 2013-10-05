@@ -1,0 +1,21 @@
+{
+	"name": "bbcode",
+	"description": "A bbcode parser for node.js",
+	"main": "./bbcode",
+	"version": "0.0.1",
+	"author": "new: Andrew Darqui (http://github.com/adarqui) ::: original: Patrick Gillespie (patorjk.com)",
+	"repository": {
+		"type": "git",
+		"url": "http://github.com/adarqui/bbcode.git"
+	},
+	"licenses": [
+		{
+			"type": "MIT"
+		}
+	],
+	"bugs": {
+		"url" : "http://github.com/adarqui/bbcode/issues"
+	},
+	"dependencies": {
+	}
+}
