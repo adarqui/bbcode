@@ -376,7 +376,7 @@ var XBBCODE = (function() {
 				var w = parseInt(options.width,10);
 				if(w > 1000 || isNaN(h)==true) options.width = 560;
 
-				return '<iframe width="'+options.height+'" height="'+options.width+'" src="'+options.url+'" frameborder="0" allowfullscreen>';
+				return '<iframe width="'+options.width+'" height="'+options.height+'" src="'+options.url+'" frameborder="0" allowfullscreen>';
 			},
 			closeTag: function(params,content) {
 				return '</iframe>';
