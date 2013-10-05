@@ -358,8 +358,6 @@ var XBBCODE = (function() {
 		"youtube": {
 			openTag: function(params,content) {
 				var myUrl;
-				var tokens;
-				var re_str = /(.*?)=(.*)/
 
 				var options = {
 					height : 315,
@@ -370,32 +368,20 @@ var XBBCODE = (function() {
 				if(!params) {
 					myUrl = content.replace(/<.*?>/g,"");
 				} else {
-					myUrl = params.substr(1);
+					myUrl = params.substr(1).split(' ')[0];
 				}
 
-                tokens = myUrl.split(' ');
+				paramsMisc.parse(params,function(key,val) {
+					if(key == 'url') return;
+					options[key] = val;
+				});
 
-				myUrl = tokens[0];
 				urlPattern.lastIndex = 0;
 				if( !urlPattern.test( myUrl ) ) {
 					myUrl = "#";
 				}
 
 				options.url = urlMisc.youtube2embed(myUrl);
-
-				if(tokens.length > 1) {
-					var re = RegExp(re_str)
-					for(var v in tokens) {
-						var token = tokens[v];
-						try {
-							var res = re.exec(token);	
-							if(res.length > 2 && res[1] != 'url')
-								options[res[1]] = res[2];
-						} catch(err) {
-							continue;
-						}
-					}
-				}
 
 				var h = parseInt(options.height,10);
 				if(h > 700 || isNaN(h)==true) options.height = 315;
@@ -496,6 +482,8 @@ var XBBCODE = (function() {
 
 	var paramsMisc = {
 		parse : function(params, cb) {
+			if(!params) return;
+
 			var re_str = /(.*?)=(.*)/
 			var tokens;
 			tokens = params.split(' ');
