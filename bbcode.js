@@ -203,8 +203,34 @@ var XBBCODE = (function() {
             noParse: true
         },
         "quote": {
+			/* [quote author=xyz link=abc date=1380953499] */
             openTag: function(params,content) {
-                return '<blockquote class="xbbcode-blockquote">';
+
+				var ret = [];
+				var options = {};
+				var date;
+				paramsMisc.parse(params,function(key,val) {
+					options[key] = val;
+				});
+				if(options.author) {
+					ret.push(	'<div class="xbbcode-blockquote-header">' +
+					 				'<div class="xbbcode-blockquote-top">' );
+					if(options.date) {
+						date = new Date(options.date*1000);
+						options.date = date.toDateString() + ', ' + date.toTimeString();
+					}
+					if(options.link) {
+						/* Linkable quote */
+						ret.push(
+							'<a href="//'+options.link+'">Quote from: '+options.author+' on '+options.date+'</a>');
+					} else {
+						/* Just tell us who we're quoting */
+						ret.push('<span>'+options.author+'</span>');
+					}
+					ret.push('</div></div>');
+				}
+				ret.push('<blockquote class="xbbcode-blockquote">');
+				return ret.join('');
             },
             closeTag: function(params,content) {
                 return '</blockquote>';
@@ -466,6 +492,29 @@ var XBBCODE = (function() {
 			if(parsed_url.pathname.indexOf("/embed") == 0) return url;
 			return parsed_url.protocol + '//' + parsed_url.host + (parsed_url.port == null ? '' : ':'+parsed_url.port) + '/embed/' + parsed_url.querystring.v;
 		},
+	};
+
+	var paramsMisc = {
+		parse : function(params, cb) {
+			var re_str = /(.*?)=(.*)/
+			var tokens;
+			tokens = params.split(' ');
+
+			if(tokens.length > 1) {  
+				var re = RegExp(re_str)
+				for(var v in tokens) {
+					var token = tokens[v];
+					try {
+						var res = re.exec(token);
+						if(res.length > 2)
+//							options[res[1]] = res[2];
+							cb(res[1],res[2]);
+					} catch(err) {
+						continue;
+					}
+				}
+			}
+		}
 	};
     
     function checkParentChildRestrictions(parentTag, bbcode, bbcodeLevel, tagName, tagParams, tagContents, errQueue) {
