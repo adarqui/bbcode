@@ -628,7 +628,6 @@ var XBBCODE = (function() {
         config.text = config.text.replace(/\]/g, "&#93;"); // escape ['s that aren't apart of tags
         config.text = config.text.replace(/</g, "["); // escape ['s that aren't apart of tags
         config.text = config.text.replace(/>/g, "]"); // escape ['s that aren't apart of tags
-
         // process tags that don't have their content parsed
         while ( config.text !== (config.text = config.text.replace(pbbRegExp2, function(matchStr, tagName, tagParams, tagContents) {
             tagContents = tagContents.replace(/\[/g, "&#91;");
@@ -663,6 +662,8 @@ var XBBCODE = (function() {
         ret.error = (errQueue.length === 0) ? false : true;
         ret.errorQueue = errQueue;
         
+		ret.html = ret.html.replace(/\n/g, "<br/>"); // turn newlines into br
+
 		if(config.cb) 
 			return config.cb(ret);
 		else
