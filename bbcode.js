@@ -35,6 +35,9 @@ THE SOFTWARE.
 
 "use strict";
 
+var url = require('url'),
+	querystring = require('querystring');
+
 var XBBCODE = (function() {
 
     // -----------------------------------------------------------------------------
@@ -326,6 +329,56 @@ var XBBCODE = (function() {
                 return '</a>';
             }
         },
+		"youtube": {
+			openTag: function(params,content) {
+				var myUrl;
+				var tokens;
+				var re_str = /(.*?)=(.*)/
+
+				var options = {
+					height : 315,
+					width : 560,
+					url : "#",
+				};
+
+				if(!params) {
+					myUrl = content.replace(/<.*?>/g,"");
+				} else {
+					myUrl = params.substr(1);
+				}
+
+                tokens = myUrl.split(' ');
+
+				myUrl = tokens[0];
+				urlPattern.lastIndex = 0;
+				if( !urlPattern.test( myUrl ) ) {
+					myUrl = "#";
+				}
+
+				options.url = urlMisc.youtube2embed(myUrl);
+
+				if(tokens.length > 1) {
+					var re = RegExp(re_str)
+					for(var v in tokens) {
+						var token = tokens[v];
+						var res = re.exec(token);	
+						if(res.length > 2 && res[1] != 'url')
+							options[res[1]] = res[2];
+					}
+				}
+
+				var h = parseInt(options.height,10);
+				if(h > 700 || isNaN(h)==true) options.height = 315;
+				var w = parseInt(options.width,10);
+				if(w > 1000 || isNaN(h)==true) options.width = 560;
+
+				return '<iframe width="'+options.height+'" height="'+options.width+'" src="'+options.url+'" frameborder="0" allowfullscreen>';
+			},
+			closeTag: function(params,content) {
+				return '</iframe>';
+			},
+			displayContent: false
+		},
         /*
             The [*] tag is special since the user does not define a closing [/*] tag when writing their bbcode.
             Instead this module parses the code and adds the closing [/*] tag in for them. None of the tags you
@@ -396,6 +449,20 @@ var XBBCODE = (function() {
     // -----------------------------------------------------------------------------
     // private functions
     // -----------------------------------------------------------------------------
+
+	var urlMisc = {
+		parseUrl : function( _url ) {
+			var parsed_url = url.parse(_url);
+			parsed_url.querystring = querystring.parse(parsed_url.query);
+			return parsed_url;
+		},
+		youtube2embed : function(url) {
+			var parsed_url = urlMisc.parseUrl(url);
+			if(parsed_url.pathname == null) return "#";
+			if(parsed_url.pathname.indexOf("/embed") == 0) return url;
+			return parsed_url.protocol + '//' + parsed_url.host + (parsed_url.port == null ? '' : ':'+parsed_url.port) + '/embed/' + parsed_url.querystring.v;
+		},
+	};
     
     function checkParentChildRestrictions(parentTag, bbcode, bbcodeLevel, tagName, tagParams, tagContents, errQueue) {
         
