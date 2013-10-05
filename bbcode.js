@@ -1,4 +1,8 @@
 /*
+ * Extending patorjk's xbbcode for use with node.js & nodebb (nodebb.org)
+ * -- adarqui
+ */
+/*
 Copyright (C) 2011 Patrick Gillespie, http://patorjk.com/
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -588,8 +592,13 @@ var XBBCODE = (function() {
         ret.error = (errQueue.length === 0) ? false : true;
         ret.errorQueue = errQueue;
         
-        return ret;
+		if(config.cb) 
+			return config.cb(ret);
+		else
+        	return ret;
     }
     
     return me;
 })();
+
+module.exports = XBBCODE;
