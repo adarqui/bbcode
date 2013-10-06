@@ -754,7 +754,9 @@ var XBBCODE = (function() {
         ret.error = (errQueue.length === 0) ? false : true;
         ret.errorQueue = errQueue;
         
-		ret.html = ret.html.replace(/\n/g, "<br/>"); // turn newlines into br
+		if(config.replaceNewlinesWithBR != false) {
+			ret.html = ret.html.replace(/\n/g, "<br/>"); // turn newlines into br
+		}
 
 		if(config.cb) 
 			return config.cb(ret);
