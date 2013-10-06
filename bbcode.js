@@ -395,6 +395,14 @@ var XBBCODE = (function() {
 			},
 			displayContent: false
 		},
+		"pre": {
+			openTag: function(params,context) {
+				return "<pre>";
+			},
+			closeTag: function(params,context) {
+				return "</pre>";
+			},
+		},
         /*
             The [*] tag is special since the user does not define a closing [/*] tag when writing their bbcode.
             Instead this module parses the code and adds the closing [/*] tag in for them. None of the tags you
