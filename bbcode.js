@@ -182,7 +182,7 @@ var XBBCODE = (function() {
 				paramsMisc.parse(params,function(key,val) {
 					options[key] = val;
 				});
-				if(options.type == "decimal") list_type = "xbbcode-list-decimal";
+				if(options.type == "decimal") list_type = "xbbcode-list xbbcode-list-decimal";
 				return '<ul class="'+list_type+'">';
             },
             closeTag: function(params,content) {
