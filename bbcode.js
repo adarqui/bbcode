@@ -413,7 +413,7 @@ var XBBCODE = (function() {
 		},
 		"center": {
 			openTag: function(params,context) {
-				return '<div class="xbbcode-center">';
+				return '<div class="xbbcode-center" align="center">';
 			},
 			closeTag: function(params,context) {
 				return '</div>';
