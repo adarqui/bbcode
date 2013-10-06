@@ -364,12 +364,13 @@ var XBBCODE = (function() {
                     myUrl = "#";
                 }
             
-                return '<a href="' + myUrl + '">';
+                return '<a href="' + myUrl + '" target="_blank">';
             },
             closeTag: function(params,content) {
                 return '</a>';
             }
         },
+		"link" : "url",
 		"youtube": {
 			openTag: function(params,content) {
 				var myUrl;
@@ -465,6 +466,13 @@ var XBBCODE = (function() {
             ii,
             len;
         for (prop in tags) {
+
+			if(typeof tags[prop] === 'string') {
+				/* If this tag's data is a 'string', then we consider it a link to another tag.. This is somewhat of an alias */
+				var real_tag = tags[prop];
+				tags[prop] = tags[real_tag];
+			}
+
             if (tags.hasOwnProperty(prop)) {
                 if (prop === "*") {
                     tagList.push("\\" + prop);
