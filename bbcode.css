@@ -72,3 +72,14 @@
 .xbbcode-table , .xbbcode-th, .xbbcode-td {
     border: 1px solid #666;
 }
+
+.xbbcode-left {
+	text-align: left;
+}
+
+.xbbcode-center {
+}
+
+.xbbcode-right {
+	text-align: right;
+}
