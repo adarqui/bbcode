@@ -188,7 +188,8 @@ var XBBCODE = (function() {
             closeTag: function(params,content) {
                 return '</ul>';
             },
-            restrictChildrenTo: ["*", "li"]
+            restrictChildrenTo: ["*", "li"],
+			removeCRLF: true,
         },
 		"li": {
 			openTag: function(params,content) {
@@ -198,6 +199,7 @@ var XBBCODE = (function() {
 				return '</li>';
 			},
 			restrictParentsTo: ["list"],
+			removeCRLF: true,
 		},
         "noparse": {
             openTag: function(params,content) {
@@ -645,6 +647,9 @@ var XBBCODE = (function() {
         if ( tags[tagName].displayContent === false) {
             processedContent = "";
         }
+		if ( tags[tagName].removeCRLF == true) {
+			processedContent = processedContent.replace(/(\r|\n)/g,'');
+		}
         
         return openTag + processedContent + closeTag;
     };
@@ -747,10 +752,6 @@ var XBBCODE = (function() {
         if (config.removeMisalignedTags) {
             ret.html = ret.html.replace(/\[.*?\]/g,"");
         }
-        if (config.addInLineBreaks) {
-            ret.html = ret.html.replace(/\r\n/g, "\n");
-            ret.html = ret.html.replace(/(\r|\n)/g, "$1<br/>");
-        }
     
         ret.html = ret.html.replace("&#91;", "["); // put ['s back in
         ret.html = ret.html.replace("&#93;", "]"); // put ['s back in
@@ -759,7 +760,8 @@ var XBBCODE = (function() {
         ret.errorQueue = errQueue;
         
 		if(config.replaceNewlinesWithBR != false) {
-			ret.html = ret.html.replace(/\n/g, "<br/>"); // turn newlines into br
+			ret.html = ret.html.replace(/\r\n/g, "\n");
+			ret.html = ret.html.replace(/(\r|\n)/g, "<br/>"); // turn newlines into br
 		}
 
 		if(config.cb) 
