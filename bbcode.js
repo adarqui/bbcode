@@ -87,6 +87,7 @@ var XBBCODE = (function() {
      *   noParse - true or false. If true, none of the content WITHIN this tag will be
      *             parsed by the XBBCode parser.
      *       
+	 *	 removeCRLF - when in a tag with this set, strip our \r and \n characters
      *
      *
      * LIMITIONS on adding NEW TAGS:
@@ -175,6 +176,17 @@ var XBBCODE = (function() {
             },
             displayContent: false
         },
+		"ulist": {
+			openTag: function(params,content) {
+				var list_type = "xbbcode-list xbbcode-list-decimal";
+                return '<ul class="'+list_type+'">';
+			},
+			closeTag: function(params,content) {
+				return "</ul>";
+			},
+			restrictChildrenTo: ["*", "li"],
+			removeCRLF: true,
+		},
         "list": {
             openTag: function(params,content) {
 				var options = {};
