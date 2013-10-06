@@ -122,10 +122,10 @@ var XBBCODE = (function() {
         },
         "code": {
             openTag: function(params,content) {
-                return '<span class="xbbcode-code">';
+                return '<pre><code class="xbbcode-code">';
             },
             closeTag: function(params,content) {
-                return '</span>';
+                return '</code></pre>';
             },
             noParse: true
         },
