@@ -720,6 +720,7 @@ var XBBCODE = (function() {
         config.text = config.text.replace(/\]/g, "&#93;"); // escape ['s that aren't apart of tags
         config.text = config.text.replace(/</g, "["); // escape ['s that aren't apart of tags
         config.text = config.text.replace(/>/g, "]"); // escape ['s that aren't apart of tags
+
         // process tags that don't have their content parsed
         while ( config.text !== (config.text = config.text.replace(pbbRegExp2, function(matchStr, tagName, tagParams, tagContents) {
             tagContents = tagContents.replace(/\[/g, "&#91;");
@@ -729,7 +730,10 @@ var XBBCODE = (function() {
             return "[" + tagName + tagParams + "]" + tagContents + "[/" + tagName + "]";
         })) );
 
+/*
+		I don't care about [*] right now.
         config.text = fixStarTag(config.text); // add in closing tags for the [*] tag
+*/
         config.text = addBbcodeLevels(config.text); // add in level metadata
 
         errQueue = checkParentChildRestrictions("bbcode", config.text, -1, "", "", config.text);
