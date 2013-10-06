@@ -177,13 +177,28 @@ var XBBCODE = (function() {
         },
         "list": {
             openTag: function(params,content) {
-                return '<ul>';
+				var options = {};
+				var list_type = "xbbcode-list";
+				paramsMisc.parse(params,function(key,val) {
+					options[key] = val;
+				});
+				if(options.type == "decimal") list_type = "xbbcode-list-decimal";
+				return '<ul class="'+list_type+'">';
             },
             closeTag: function(params,content) {
                 return '</ul>';
             },
             restrictChildrenTo: ["*", "li"]
         },
+		"li": {
+			openTag: function(params,content) {
+				return '<li class="xbbcode-list-li">';
+			},
+			closeTag: function(params,content) {
+				return '</li>';
+			},
+			restrictParentsTo: ["list"],
+		},
         "noparse": {
             openTag: function(params,content) {
                 return '';

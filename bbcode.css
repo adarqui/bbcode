@@ -83,3 +83,13 @@
 .xbbcode-right {
 	text-align: right;
 }
+
+.xbbcode-list {
+}
+
+.xbbcode-list-decimal {
+	list-style-type: decimal;
+}
+
+.xbbcode-list-li {
+}
